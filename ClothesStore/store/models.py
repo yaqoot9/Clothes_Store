@@ -28,6 +28,30 @@ class Quantity(models.Model):
     size=models.CharField(max_length=10,choices=size_choices)
     quantity_of_item=models.IntegerField()
 
+class Sale(models.Model):
+    price=models.IntegerField()
+    date=models.DateTimeField()
+    user_id=models.ForeignKey(CustomeUser,models.CASCADE,related_name='sale')
+    item_id=models.ForeignKey(Item,models.CASCADE,related_name='sale')
+
+
+class Rating(models.Model):
+    rate=models.IntegerField()
+    user_id=models.ForeignKey(CustomeUser,models.CASCADE,related_name='rating')
+    item_id=models.ForeignKey(Item,models.CASCADE,related_name='rating')
+
+
+class FavList(models.Model):
+    item_id=models.ForeignKey(Item,models.CASCADE,related_name='FavList')
+    user_id=models.ForeignKey(CustomeUser,models.CASCADE,related_name='FavList')
+
+class CreditCard(models.Model):
+    user_id=models.ForeignKey(CustomeUser,models.CASCADE,related_name='CreditCard')
+    card_type=models.CharField(max_length=100)
+    password=models.CharField(max_length=50)
+    card_number=models.IntegerField()
+
+
 
 
 
