@@ -1,17 +1,30 @@
+import django
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
 
 # Create your models here.
+class TimeStampMixin(models.Model):
+    created_at =models. DateField(default=django.utils.timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
 
-class CustomeUser(AbstractUser):
+    class Meta:
+        abstract = True
+
+
+
+
+
+
+
+class CustomeUser(AbstractUser,TimeStampMixin):
     is_admin=models.BooleanField(default=False)
     is_registered=models.BooleanField(default=False)
     is_worker=models.BooleanField(default=False)
 
 
-class Item(models.Model):
+class Item(TimeStampMixin):
     name=models.CharField(max_length=100)
     price=models.IntegerField()
     brand=models.CharField(max_length=100)
@@ -20,7 +33,7 @@ class Item(models.Model):
     category_choices=[("B",'Business'),("S",'Sports'),("C",'Casual'),("F",'Formal')]
     category=models.CharField(max_length=10,choices=category_choices)
 
-class Quantity(models.Model):
+class Quantity(TimeStampMixin):
     item_id=models.ForeignKey(Item,models.CASCADE,related_name='quntity')
     color_choices=[("Bl",'Black'),("W",'white'),("Y",'Yellow'),("P",'Pink'),("O",'Orange'),("R",'red'),("G",'green'),("B",'blue'),("Gr",'Gray')]
     color=models.CharField(max_length=10,choices=color_choices)
@@ -28,33 +41,28 @@ class Quantity(models.Model):
     size=models.CharField(max_length=10,choices=size_choices)
     quantity_of_item=models.IntegerField()
 
-class Sale(models.Model):
+class SoldItem(TimeStampMixin):
     price=models.IntegerField()
     date=models.DateTimeField()
     user_id=models.ForeignKey(CustomeUser,models.CASCADE,related_name='sale')
     item_id=models.ForeignKey(Item,models.CASCADE,related_name='sale')
 
 
-class Rating(models.Model):
+class Rating(TimeStampMixin):
     rate=models.IntegerField()
     user_id=models.ForeignKey(CustomeUser,models.CASCADE,related_name='rating')
     item_id=models.ForeignKey(Item,models.CASCADE,related_name='rating')
 
 
-class FavList(models.Model):
+class FavList(TimeStampMixin):
     item_id=models.ForeignKey(Item,models.CASCADE,related_name='FavList')
     user_id=models.ForeignKey(CustomeUser,models.CASCADE,related_name='FavList')
 
-class CreditCard(models.Model):
+class CreditCard(TimeStampMixin):
     user_id=models.ForeignKey(CustomeUser,models.CASCADE,related_name='CreditCard')
     card_type=models.CharField(max_length=100)
     password=models.CharField(max_length=50)
     card_number=models.IntegerField()
-
-
-
-
-
 
 
 

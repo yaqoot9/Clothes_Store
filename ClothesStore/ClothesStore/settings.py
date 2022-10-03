@@ -40,13 +40,17 @@ INSTALLED_APPS = [
     'store',
     'rest_framework',
     'rest_framework.authtoken',
-]
+
+
+
+    ]
 AUTH_USER_MODEL='store.CustomeUser'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),}
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+     ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -99,15 +103,28 @@ DATABASES={
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'OPTIONS':{'user_attributes':('username','email'),
+                   'max_similarity':1}
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS':{'min_length':12}
+
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'store.validators.NumberValidator',
+    },
+    {
+        'NAME': 'store.validators.UppercaseValidator',
+    },
+    {
+        'NAME': 'store.validators.LowercaseValidator',
     },
 ]
 
