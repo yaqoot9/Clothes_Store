@@ -29,9 +29,9 @@ class Item(TimeStampMixin):
     price=models.IntegerField()
     brand=models.CharField(max_length=100)
     gender_choices = [("Female", 'F'), ("Male", 'M')]
-    gender = models.CharField(max_length=10, choices=gender_choices)
-    category_choices=[("B",'Business'),("S",'Sports'),("C",'Casual'),("F",'Formal')]
-    category=models.CharField(max_length=10,choices=category_choices)
+    gender = models.CharField(max_length=20, choices=gender_choices)
+    category_choices=[("T-shirt",'T'),("Hoodie",'H'),("Outwear",'O'),("Skirt",'S'),("Pants",'P'),("Dress",'D'),("Long Sleeve",'L'),('Shorts',"SH")]
+    category=models.CharField(max_length=20,choices=category_choices)
 
 class Quantity(TimeStampMixin):
     item_id=models.ForeignKey(Item,models.CASCADE,related_name='quntity')

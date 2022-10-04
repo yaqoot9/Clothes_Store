@@ -35,6 +35,24 @@ class ChangePasswordSerializers(serializers.ModelSerializer):
     password = serializers.CharField(required=True)
     new_password =serializers.CharField(required=True)
     new_password_again=serializers.CharField(required=True)
+
     class Meta:
         model = CustomeUser
+        fields='__all__'
+
+class ItemSerializers(serializers.ModelSerializer):
+    class Meta:
+        model=Item
+        fields='__all__'
+
+
+class EditItemSerilizers(serializers.ModelSerializer):
+    category=serializers.CharField(required=False)
+    gender = serializers.CharField(required=False)
+    gender = serializers.CharField(required=False)
+    brand = serializers.CharField(required=False)
+    price = serializers.CharField(required=False)
+    name=serializers.CharField(required=False)
+    class Meta:
+        model=Item
         fields='__all__'
