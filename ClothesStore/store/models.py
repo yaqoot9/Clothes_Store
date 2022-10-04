@@ -54,7 +54,7 @@ class Rating(TimeStampMixin):
     item_id=models.ForeignKey(Item,models.CASCADE,related_name='rating')
 
 
-class FavList(TimeStampMixin):
+class FavList(models.Model):
     item_id=models.ForeignKey(Item,models.CASCADE,related_name='FavList')
     user_id=models.ForeignKey(CustomeUser,models.CASCADE,related_name='FavList')
 

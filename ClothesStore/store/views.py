@@ -6,8 +6,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import Registerserializers, EditSerializers, ChangePasswordSerializers, ItemSerializers,EditItemSerilizers
-from .models import CustomeUser, Item
+from .serializers import Registerserializers, EditSerializers, ChangePasswordSerializers, ItemSerializers,EditItemSerilizers,FavSerilizers
+from .models import CustomeUser, Item,FavList,CreditCard
 
 
 # Create your views here.
@@ -113,7 +113,7 @@ class ItemAPI(APIView):
                 )
                 items.save()
             return Response(ser.data)
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return Response('UNAUTHORIZED')
 
     def put(self, request, pk):
         if request.user.is_worker == True:
@@ -122,11 +122,40 @@ class ItemAPI(APIView):
             if ser.is_valid(raise_exception=True):
                 ser.save()
             return Response(ser.data)
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return Response('UNAUTHORIZED')
 
     def delete(self, request, pk):
         if request.user.is_worker == True:
             p = Item.objects.filter(id=pk).first()
             p.delete()
             return Response('Deleted!')
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return Response('UNAUTHORIZED')
+
+
+
+
+class FavListAPI(APIView):
+    permission_classes = (IsAuthenticated,)
+    def post(self,request,pk):
+        if request.user.is_registered==True:
+
+            user=request.user
+            item_id=Item.objects.get(id=pk)
+            favlist=FavList.objects.create(
+                user_id=user,
+                item_id=item_id
+
+            )
+            ser=FavSerilizers(instance=favlist,data=request.data)
+            if ser.is_valid(raise_exception=True):
+                ser.save()
+            return Response(ser.data)
+        return Response('UNAUTHORIZED')
+
+    def delete(self, request, pk):
+        if request.user.is_registered == True:
+            fav = FavList.objects.filter(id=pk).first()
+            fav.delete()
+            return Response('Deleted!')
+        return Response('UNAUTHORIZED')
+

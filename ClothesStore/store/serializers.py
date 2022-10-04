@@ -56,3 +56,10 @@ class EditItemSerilizers(serializers.ModelSerializer):
     class Meta:
         model=Item
         fields='__all__'
+
+class FavSerilizers(serializers.ModelSerializer):
+    item_id=serializers.CharField(required=False)
+    user_id = serializers.CharField(required=False)
+    class Meta:
+        model=FavList
+        fields='__all__'

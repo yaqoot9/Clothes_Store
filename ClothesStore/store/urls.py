@@ -7,4 +7,5 @@ urlpatterns = [
     path('api/items/<name>/<category>/<gender>/<str:price>/', views.ListItem.as_view(), name='ListItem'),
     path('api/item/',views.ItemAPI.as_view(),name='Item'),
     path('api/item/<str:pk>/',views.ItemAPI.as_view(),name='Item1'),
+    path('api/fav/<pk>/',views.FavListAPI.as_view(),name='FavList')
 ]
