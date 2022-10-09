@@ -43,7 +43,6 @@ class Quantity(TimeStampMixin):
 
 class SoldItem(TimeStampMixin):
     price=models.IntegerField()
-    date=models.DateTimeField()
     user_id=models.ForeignKey(CustomeUser,models.CASCADE,related_name='sale')
     item_id=models.ForeignKey(Item,models.CASCADE,related_name='sale')
 

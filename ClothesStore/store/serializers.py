@@ -2,7 +2,7 @@ from django.contrib.auth import validators
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
-from .models import Item,CustomeUser,FavList,Rating,SoldItem
+from .models import Item,CustomeUser,FavList,Rating,SoldItem,CreditCard,Quantity
 from rest_framework import serializers
 from django.contrib.auth import password_validation
 from .validators import NumberValidator,UppercaseValidator,LowercaseValidator
@@ -41,9 +41,21 @@ class ChangePasswordSerializers(serializers.ModelSerializer):
         fields='__all__'
 
 class ItemSerializers(serializers.ModelSerializer):
+    Quantites=serializers.SerializerMethodField()
+    def get_Quantites(self,instance):
+        instance.id
+        Quantites=Quantity.objects.filter(item_id=instance.id)
+        return QuentitySerialzers(Quantites,many=True).data
     class Meta:
         model=Item
-        fields='__all__'
+        fields=['category','gender','brand','name','price','Quantites']
+
+
+class ItemCreateSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Item
+        fields ='__all__'
 
 
 class EditItemSerilizers(serializers.ModelSerializer):
@@ -62,4 +74,31 @@ class FavSerilizers(serializers.ModelSerializer):
     user_id = serializers.CharField(required=False)
     class Meta:
         model=FavList
+        fields='__all__'
+
+
+class SoldItemsSerializers(serializers.ModelSerializer):
+    item_id = serializers.CharField(required=False)
+    user_id = serializers.CharField(required=False)
+    class Meta:
+        model=SoldItem
+        fields='__all__'
+
+class CreditSerialzers(serializers.ModelSerializer):
+    user_id = serializers.CharField(required=False)
+    class Meta:
+        model=CreditCard
+        fields='__all__'
+
+class RatingSerialzers(serializers.ModelSerializer):
+    item_id = serializers.CharField(required=False)
+    user_id = serializers.CharField(required=False)
+    class Meta:
+        model=Rating
+        fields='__all__'
+
+class QuentitySerialzers(serializers.ModelSerializer):
+    item_id = serializers.CharField(required=False)
+    class Meta:
+        model=Quantity
         fields='__all__'
